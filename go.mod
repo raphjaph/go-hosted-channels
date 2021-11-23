@@ -3,7 +3,6 @@ module github.com/raphjaph/go-hosted-channels
 go 1.17
 
 require (
-	github.com/btcsuite/btcd v0.22.0-beta.0.20211005184431-e3449998be39
 	github.com/fiatjaf/lightningd-gjson-rpc v1.4.1
 	github.com/lightningnetwork/lnd v0.14.0-beta.rc3
 	github.com/stretchr/testify v1.7.0
@@ -11,6 +10,7 @@ require (
 
 require (
 	github.com/aead/siphash v1.0.1 // indirect
+	github.com/btcsuite/btcd v0.22.0-beta.0.20211005184431-e3449998be39 // indirect
 	github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f // indirect
 	github.com/btcsuite/btcutil v1.0.3-0.20210527170813-e2ba6805a890 // indirect
 	github.com/btcsuite/btcutil/psbt v1.0.3-0.20210527170813-e2ba6805a890 // indirect

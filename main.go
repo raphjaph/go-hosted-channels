@@ -129,5 +129,6 @@ func handleCustomMsg(p *plugin.Plugin, params plugin.Params) (resp interface{}) 
 	}
 
 	p.Log("handeling msg type: ", msg.MsgType(), " from peer: ", peer, " with content: ", payload[:])
+
 	return continueHTLC
 }

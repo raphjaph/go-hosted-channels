@@ -33,4 +33,4 @@
 - [ ] create cli commands and work into the details from there
   - [ ] invoke-hc
   - [ ] send-htlc
-  - [ ] 
+  - [ ] sf

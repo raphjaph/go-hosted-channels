@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/btcsuite/btcd/wire"
 	"github.com/lightningnetwork/lnd/lnwire"
 )
 
@@ -29,73 +28,72 @@ var _ Message = (*InitHostedChannel)(nil)
 
 func (c *InitHostedChannel) Decode(r io.Reader, pver uint32) error {
 	//TODO: make for loop or something more elegant
-
-	if err := lnwire.ReadElement(r, &c.MaxHTLCValueInFlightMSat); err != nil {
+	if err := ReadElement(r, &c.MaxHTLCValueInFlightMSat); err != nil {
 		return err
 	}
 
-	if err := lnwire.ReadElement(r, &c.HTLCMinimumMSat); err != nil {
+	if err := ReadElement(r, &c.HTLCMinimumMSat); err != nil {
 		return err
 	}
 
-	if err := lnwire.ReadElement(r, &c.MaxAcceptedHTLCs); err != nil {
+	if err := ReadElement(r, &c.MaxAcceptedHTLCs); err != nil {
 		return err
 	}
 
-	if err := lnwire.ReadElement(r, &c.ChannelCapacityMSat); err != nil {
+	if err := ReadElement(r, &c.ChannelCapacityMSat); err != nil {
 		return err
 	}
 
-	if err := lnwire.ReadElement(r, &c.LiabilityDeadlineBlockdays); err != nil {
+	if err := ReadElement(r, &c.LiabilityDeadlineBlockdays); err != nil {
 		return err
 	}
 
-	if err := lnwire.ReadElement(r, &c.MinimalOnChainRefundAmountSatoshis); err != nil {
+	if err := ReadElement(r, &c.MinimalOnChainRefundAmountSatoshis); err != nil {
 		return err
 	}
 
-	if err := lnwire.ReadElement(r, &c.InitialClientBalanceMSat); err != nil {
+	if err := ReadElement(r, &c.InitialClientBalanceMSat); err != nil {
 		return err
 	}
 
-	// TODO:  what is max size of features field
+	// TODO:  what is max size of features field; 13 bytes?
 	var err error
-	c.Features, err = wire.ReadVarBytes(r, 1, 13, "features")
+	c.Features, err = ReadVarBytes(r, 13, "features")
 
 	return err
 }
 
-func (c *InitHostedChannel) Encode(w *bytes.Buffer, pver uint32) error {
+func (c *InitHostedChannel) Encode(buf *bytes.Buffer, pver uint32) error {
 
-	if err := lnwire.WriteUint64(w, c.MaxHTLCValueInFlightMSat); err != nil {
+	if err := lnwire.WriteUint64(buf, c.MaxHTLCValueInFlightMSat); err != nil {
 		return err
 	}
 
-	if err := lnwire.WriteUint64(w, c.HTLCMinimumMSat); err != nil {
+	if err := lnwire.WriteUint64(buf, c.HTLCMinimumMSat); err != nil {
 		return err
 	}
 
-	if err := lnwire.WriteUint16(w, c.MaxAcceptedHTLCs); err != nil {
+	if err := lnwire.WriteUint16(buf, c.MaxAcceptedHTLCs); err != nil {
 		return err
 	}
 
-	if err := lnwire.WriteUint64(w, c.ChannelCapacityMSat); err != nil {
+	if err := lnwire.WriteUint64(buf, c.ChannelCapacityMSat); err != nil {
 		return err
 	}
 
-	if err := lnwire.WriteUint16(w, c.LiabilityDeadlineBlockdays); err != nil {
+	if err := lnwire.WriteUint16(buf, c.LiabilityDeadlineBlockdays); err != nil {
 		return err
 	}
 
-	if err := lnwire.WriteUint64(w, c.MinimalOnChainRefundAmountSatoshis); err != nil {
+	if err := lnwire.WriteUint64(buf, c.MinimalOnChainRefundAmountSatoshis); err != nil {
 		return err
 	}
 
-	if err := lnwire.WriteUint64(w, c.InitialClientBalanceMSat); err != nil {
+	if err := lnwire.WriteUint64(buf, c.InitialClientBalanceMSat); err != nil {
 		return err
 	}
 
-	err := wire.WriteVarBytes(w, 1, c.Features)
+	err := WriteVarBytes(buf, c.Features)
 
 	return err
 }

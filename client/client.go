@@ -23,11 +23,6 @@ func main() {
 
 	log.Print(peerInfo.Get("peers.0.id"))
 
-	//invoice, err := ln.Call("invoice", 1000, "random10", "my description", 3600)
-	//if err != nil {
-	//	log.Fatal("getinvoice error: " + err.Error())
-	//}
-
 	myMethod, err := ln.Call("sendcustommsg", peerInfo.Get("peers.0.id").Str, "1337ffffffff")
 	if err != nil {
 		log.Fatal(err.Error())

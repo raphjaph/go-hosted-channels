@@ -7,8 +7,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-
-	"github.com/btcsuite/btcd/wire"
 )
 
 type InvokeHostedChannel struct {
@@ -32,28 +30,27 @@ func (c *InvokeHostedChannel) Decode(r io.Reader, pver uint32) error {
 	}
 
 	// p2wsh is 34 bytes long (max allowed length)
-	c.RefundScriptPubKey, err = wire.ReadVarBytes(r, 1, 62, "refund_scriptpubkey")
+	c.RefundScriptPubKey, err = ReadVarBytes(r, 34, "refund_scriptpubkey")
 	if err != nil {
 		return err
 	}
 	// read the custom TLV field (secret)
 	// Secret should not be longer than 64 bytes
-	c.Secret, err = wire.ReadVarBytes(r, 1, 64, "secret")
+	c.Secret, err = ReadVarBytes(r, 64, "secret")
 
 	return err
 }
 
-func (c *InvokeHostedChannel) Encode(w *bytes.Buffer, pver uint32) error {
-	_, err := w.Write(c.ChainHash[:])
-	if err != nil {
+func (c *InvokeHostedChannel) Encode(buf *bytes.Buffer, pver uint32) error {
+	if _, err := buf.Write(c.ChainHash[:]); err != nil {
 		return err
 	}
 
-	if err = wire.WriteVarBytes(w, pver, c.RefundScriptPubKey); err != nil {
+	if err := WriteVarBytes(buf, c.RefundScriptPubKey); err != nil {
 		return err
 	}
 
-	return wire.WriteVarBytes(w, pver, c.Secret)
+	return WriteVarBytes(buf, c.Secret)
 }
 
 func (c *InvokeHostedChannel) MsgType() MessageType {

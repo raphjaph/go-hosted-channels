@@ -19,9 +19,9 @@ type MessageType uint16
 const (
 	MsgInvokeHostedChannel    MessageType = 65535
 	MsgInitHostedChannel      MessageType = 65533
-	MsgLastCrossedSignedState             = 65531
-	MsgStateUpdate                        = 65529
-	MsgStateOverride                      = 65527
+	MsgLastCrossedSignedState MessageType = 65531
+	MsgStateUpdate            MessageType = 65529
+	MsgStateOverride          MessageType = 65527
 )
 
 func (t MessageType) String() string {
@@ -41,6 +41,8 @@ func (t MessageType) String() string {
 	}
 }
 
+// Not sure if I need this:
+/*
 type UnknownMessage struct {
 	messageType MessageType
 }
@@ -48,14 +50,11 @@ type UnknownMessage struct {
 func (u *UnknownMessage) Error() string {
 	return fmt.Sprintf("unable to parse message of unknown type: %v", u.messageType)
 }
+*/
 
-type Serializable interface {
-	Decode(io.Reader, uint32) error
-	Encode(*bytes.Buffer, uint32) error
-}
-
+// TODO: how to wrap the lnwire.Message; here I'm just copying it because I got annoyed with all the (re)casting of types
 type Message interface {
-	Serializable
+	lnwire.Serializable
 	MsgType() MessageType
 }
 
@@ -68,20 +67,15 @@ func makeEmptyMessage(msgType MessageType) (Message, error) {
 		msg = &InvokeHostedChannel{}
 	case MsgInitHostedChannel:
 		msg = &InitHostedChannel{}
-
-		/*
-			case MsgLastCrossedSignedState:
-				msg = &LastCrossSignedState{}
-			case MsgStateUpdate:
-				msg = &StateUpdate{}
-			case MsgStateOverride:
-				msg = &StateOverride{}
-		*/
-
+	case MsgLastCrossedSignedState:
+		msg = &LastCrossSignedState{}
+	case MsgStateUpdate:
+		msg = &StateUpdate{}
+	case MsgStateOverride:
+		msg = &StateOverride{}
 	default:
 		return nil, fmt.Errorf("not a hosted channel message")
 	}
-
 	return msg, nil
 }
 
