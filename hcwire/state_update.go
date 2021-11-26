@@ -12,7 +12,7 @@ type StateUpdate struct {
 	Blockday         uint32
 	LocalUpdates     uint32
 	RemoteUpdates    uint32
-	LocalSigOfRemote [64]byte
+	LocalSigOfRemote [64]byte // sig of remote last_crossed_signed_state
 }
 
 func NewStateUpdate() *StateUpdate {
@@ -35,7 +35,7 @@ func (c *StateUpdate) Decode(r io.Reader, pver uint32) error {
 	}
 
 	if _, err := io.ReadFull(r, c.LocalSigOfRemote[:]); err != nil {
-		return fmt.Errorf("could not parse chain_hash: %v", err)
+		return fmt.Errorf("could not parse local_sig_of_remote: %v", err)
 	}
 
 	return nil

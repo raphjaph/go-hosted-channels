@@ -74,7 +74,7 @@ func ReadElement(r io.Reader, element interface{}) error {
 	return nil
 }
 
-// write a uint16 for the length field
+// writes a uint16 for the length field
 func WriteVarBytes(buf *bytes.Buffer, bytes []byte) error {
 	length := len(bytes)
 

@@ -9,7 +9,8 @@
 
 - define inputs of plugin (hooks, subscrptions)
 - clear marshalling and unmarshalling of message type
--  
+- the payment hash should be used as the key in go channels
+- 
 
 ## Codec (the way mesasges are encoded)
 
