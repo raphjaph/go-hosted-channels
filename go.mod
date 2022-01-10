@@ -6,6 +6,7 @@ require (
 	github.com/fiatjaf/lightningd-gjson-rpc v1.4.1
 	github.com/lightningnetwork/lnd v0.14.0-beta.rc3
 	github.com/stretchr/testify v1.7.0
+	github.com/syndtr/goleveldb v1.0.0
 )
 
 require (
@@ -26,6 +27,7 @@ require (
 	github.com/decred/dcrd/lru v1.0.0 // indirect
 	github.com/fiatjaf/ln-decodepay v1.0.0 // indirect
 	github.com/go-errors/errors v1.0.1 // indirect
+	github.com/golang/snappy v0.0.4 // indirect
 	github.com/kkdai/bstream v1.0.0 // indirect
 	github.com/lightninglabs/gozmq v0.0.0-20191113021534-d20a764486bf // indirect
 	github.com/lightninglabs/neutrino v0.13.0 // indirect

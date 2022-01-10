@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/hex"
+	"fmt"
+	"math/rand"
 
 	"github.com/lightningnetwork/lnd/lnwire"
 	"github.com/raphjaph/go-hosted-channels/hcwire"
@@ -22,7 +24,8 @@ func getGenesisHash() [32]byte {
 }
 
 func getRandomShortChannelID() string {
-	return "1x2x3"
+	rand.Seed(42)
+	return fmt.Sprintf("%vx%vx%v", rand.Intn(1000), rand.Intn(1000), rand.Intn(1000))
 }
 
 func getNodeKey() {
